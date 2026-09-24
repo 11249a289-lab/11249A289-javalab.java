@@ -1,0 +1,96 @@
+Program 2.1 — MathUtil.java (7 lines)
+// File: MathUtil.java (the package member)
+package com.scsvmv.util;
+public class MathUtil {
+public static int square(int n) { return n * n; }
+public static int cube(int n) { return n * n * n; }
+}
+output:
+package com.scsvmv.util;
+public class UseMath {
+    public static void main(String[] args) {
+        System.out.println(MathUtil.square(5));
+        System.out.println(MathUtil.cube(5));
+    }
+}
+Program 2.2 — UseMath.java (9 lines)
+// File: UseMath.java (uses the package)
+import com.scsvmv.util.MathUtil;
+public class UseMath {
+
+Page 13 of 62
+
+SCSVMV University | Department of Computer Science and Engineering | Java Programming Laboratory
+
+public static void main(String[] args) {
+System.out.println("Square of 7 = " + MathUtil.square(7));
+System.out.println("Cube of 3 = " + MathUtil.cube(3));
+}
+}
+Compiling and running
+D:\JavaLab\Ex2> javac -d . MathUtil.java
+(this creates the folders com\scsvmv\util automatically)
+D:\JavaLab\Ex2> javac UseMath.java
+D:\JavaLab\Ex2> java UseMath
+Square of 7 = 49
+Cube of 3 = 27
+
+Case Study 2 — Two-Package Fee Calculator
+Solution — three small files
+// File 1: Student.java
+package com.scsvmv.fee.model;
+public class Student {
+public String name;
+public String course;
+public Student(String n, String c) { name = n; course = c; }
+}
+// File 2: FeeRule.java
+package com.scsvmv.fee.service;
+public class FeeRule {
+public static double fee(String course) {
+if (course.equals("BE")) return 75000;
+if (course.equals("ME")) return 60000;
+return 40000;
+}
+}
+// File 3: FeeApp.java (15 lines)
+import com.scsvmv.fee.model.Student;
+import com.scsvmv.fee.service.FeeRule;
+public class FeeApp {
+public static void main(String[] args) {
+Student[] s = { new Student("Meena", "BE"),
+new Student("Ravi", "ME"),
+new Student("Anu", "BSc") };
+double total = 0;
+for (Student x : s) {
+double f = FeeRule.fee(x.course);
+System.out.printf("%-8s %-5s %10.2f%n", x.name, x.course, f);
+total = total + f;
+}
+System.out.printf("Total fee = %.2f%n", total);
+}
+}
+Output
+D:\JavaLab\Ex2> javac -d . Student.java FeeRule.java
+D:\JavaLab\Ex2> javac FeeApp.java
+D:\JavaLab\Ex2> java FeeApp
+Meena BE 75000.00
+Ravi ME 60000.00
+Anu BSc 40000.00
+Total fee = 175000.00
+practies section:
+
+Remove the word public from the Student class and note the exact compiler error.
+
+class Student {
+    void display() {
+        System.out.println("Student class");
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display();
+    }
+}
+output:
+Student class
