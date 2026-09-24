@@ -1,0 +1,124 @@
+Program 7.1 — WriteFile.java (15 lines)
+// Ex 7: writing to a text file
+import java.io.FileWriter;
+import java.io.IOException;
+public class WriteFile {
+public static void main(String[] args) {
+try (FileWriter fw = new FileWriter("student.txt")) {
+fw.write("101,Aravind,78\n");
+fw.write("102,Divya,91\n");
+fw.write("103,Karthik,45\n");
+System.out.println("File written successfully.");
+} catch (IOException e) {
+System.out.println("Error : " + e.getMessage());
+}
+}
+}
+
+output:
+
+101,Aravind,78
+102,Divya,91
+103,Karthik,45
+
+Program 7.2 — ReadFile.java (20 lines)
+// Ex 7: reading the same file back and processing it
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+public class ReadFile {
+public static void main(String[] args) {
+try (BufferedReader br =
+new BufferedReader(new FileReader("student.txt"))) {
+String line;
+System.out.println("ROLL NAME MARKS");
+while ((line = br.readLine()) != null) {
+String[] f = line.split(",");
+System.out.printf("%-6s%-10s%s%n", f[0], f[1], f[2]);
+}
+} catch (IOException e) {
+System.out.println("Error : " + e.getMessage());
+}
+}
+}
+Output
+D:\JavaLab\Ex7> java WriteFile
+File written successfully.
+D:\JavaLab\Ex7> java ReadFile
+ROLL NAME MARKS
+101 Aravind 78
+102 Divya 91
+103 Karthik 45
+
+Case Study 7 — Result Report from a File
+Solution — ResultReport.java (25 lines)
+// Case Study 7: read a file, process it, write a report
+import java.io.*;
+public class ResultReport {
+public static void main(String[] args) {
+int pass = 0, fail = 0, total = 0, n = 0;
+try (BufferedReader br = new BufferedReader(new FileReader("student.txt"));
+PrintWriter pw = new PrintWriter("result.txt")) {
+String line;
+while ((line = br.readLine()) != null) {
+String[] f = line.split(",");
+int m = Integer.parseInt(f[2]);
+total = total + m;
+n++;
+if (m >= 50) { pass++; pw.println(f[1] + " PASS"); }
+else { fail++; pw.println(f[1] + " FAIL"); }
+}
+pw.println("Passed : " + pass);
+pw.println("Failed : " + fail);
+pw.printf ("Average : %.2f%n", (double) total / n);
+System.out.println("result.txt created. Passed " + pass + ", failed " + fail);
+} catch (IOException e) {
+System.out.println("File error : " + e.getMessage());
+}
+}
+}
+Output:
+result.txt created. Passed 2, failed 1
+Contents of result.txt:
+Aravind PASS
+Divya PASS
+Karthik FAIL
+Passed : 2
+Failed : 1
+Average : 71.33
+
+practies section:
+
+• Add a line with a letter instead of a number and catch NumberFormatException so the bad line is
+skipped.
+
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+public class ReadFile {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("student.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    String[] data = line.split(",");
+                    int rollNo = Integer.parseInt(data[0]);
+                    String name = data[1];
+                    int marks = Integer.parseInt(data[2]);
+                    System.out.println(rollNo + " " + name + " " + marks);
+                } catch (NumberFormatException e) {
+                    System.out.println("Bad line skipped: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+output:
+
+101 Aravind 78
+102 Divya 91
+103 Karthik 45
+Bad line skipped: 104,Rahul,ABC
