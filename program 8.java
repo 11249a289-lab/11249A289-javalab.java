@@ -1,0 +1,177 @@
+Experiment 8 — Applets
+
+Program 8.1 — HelloApplet.java
+import java.applet.Applet;
+import java.awt.*;
+public class HelloApplet extends Applet {
+public void init() {
+setBackground(Color.WHITE);
+}
+public void paint(Graphics g) {
+g.setColor(Color.BLUE);
+g.drawString("Welcome to SCSVMV", 30, 25);
+g.setColor(Color.RED);
+g.fillOval(30, 45, 60, 60);
+g.setColor(Color.GREEN);
+g.fillRect(110, 45, 80, 60);
+}
+}
+
+OUTPUT :
+File is uploded seperately.
+
+
+Program 8.2 — Life cycle in four lines of printing 
+
+import java.applet.Applet;
+import java.awt.Graphics;
+public class LifeCycle extends Applet {
+public void init() { System.out.println("init()"); }
+public void start() { System.out.println("start()"); }
+public void stop() { System.out.println("stop()"); }
+public void destroy() { System.out.println("destroy()"); }
+public void paint(Graphics g) {
+System.out.println("paint()");
+g.drawString("Minimise and restore this window", 20, 30);
+}
+}
+
+OUTPUT :
+
+init()
+start()
+paint()
+
+
+File is uploded seperately.
+
+
+
+
+8(b) Colour Palette
+
+Program 8.3 — Palette.java (25 lines)
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+public class Palette extends Applet {
+Color[] c = { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW };
+int sel = 0;
+public void init() {
+addMouseListener(new MouseAdapter() {
+public void mouseClicked(MouseEvent e) {
+int i = (e.getX() - 20) / 60;
+if (e.getY() < 60 && i >= 0 && i < 4) sel = i;
+repaint();
+}
+});
+}
+public void paint(Graphics g) {
+for (int i = 0; i < c.length; i++) {
+g.setColor(c[i]);
+g.fillRect(20 + i * 60, 20, 50, 40);
+}
+g.setColor(c[sel]);
+g.fillRect(20, 90, 230, 60);
+}
+}
+
+
+OUTPUT :
+
++--------------------------------------------+
+| [RED] [GREEN] [BLUE] [YELLOW] |
+| |
+| +--------------------------------------+ |
+| | big box, filled with the colour | |
+| | you clicked | |
+| +--------------------------------------+ |
++--------------------------------------------+
+
+File uploaded seperately.
+
+
+Case Study 8 — Bar Chart of Marks
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+public class BarChart extends Applet {
+
+
+
+int[] marks = { 78, 91, 45, 66, 88 };
+String msg = "Click a bar";
+public void init() {
+addMouseListener(new MouseAdapter() {
+public void mouseClicked(MouseEvent e) {
+int i = (e.getX() - 20) / 50;
+if (i >= 0 && i < 5) msg = "Subject " + (i + 1) + " = " + marks[i];
+repaint();
+}
+});
+}
+public void paint(Graphics g) {
+g.drawString(msg, 20, 20);
+for (int i = 0; i < marks.length; i++) {
+g.setColor(marks[i] >= 50 ? Color.GREEN : Color.RED);
+g.fillRect(20 + i * 50, 150 - marks[i], 40, marks[i]);
+}
+}
+}
+
+
+Output :
+
+Subject 2 = 91
+#
+# # # #
+# # # # #
+# # # # # green bars = pass, red bar = fail
+# # R # #
+1 2 3 4 5
+
+
+
+
+Case Study 8 — Bar Chart of Marks
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+
+public class BarChart extends Applet {
+    int[] marks = {78, 91, 45, 66, 88};
+    String[] subjects = {
+        "Maths", "Science", "English", "Computer", "Social"
+    };
+    String msg = "Click a bar";
+
+    public void init() {
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int i = (e.getX() - 20) / 50;
+                if (i >= 0 && i < 5)
+                    msg = subjects[i] + " = " + marks[i];
+                repaint();
+            }
+        });
+    }
+
+    public void paint(Graphics g) {
+        g.drawString(msg, 20, 20);
+
+        for (int i = 0; i < marks.length; i++) {
+            g.setColor(marks[i] >= 50 ? Color.GREEN : Color.RED);
+            g.fillRect(20 + i * 50, 150 - marks[i], 40, marks[i]);
+
+            g.setColor(Color.BLACK);
+            g.drawString(subjects[i], 20 + i * 50, 165);
+        }
+    }
+}
+
+
+OUTPUT :
+FILE IS UPLOADED SEPERATELY
